@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Minesweeper</title>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <h1 class="text-center">Minesweeper</h1>
+    <h2 class="text-center">Find all the mines, empty the board, don't die.</h2>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12" id="gameArea">
+                <div class="well" id="menu">
+                    <h3 class="text-center">Choose your difficulty</h3>
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-offset-4 btn-group-vertical">
+                            <button class="btn btn-primary btn-lg btn-block" id="btn_easy">Easy</button>
+                            <button class="btn btn-warning btn-lg btn-block" id="btn_normal">Normal</button>
+                            <button class="btn btn-danger btn-lg btn-block" id="btn_hard">Hard</button>
+                            <button class="btn btn-default btn-lg btn-block" id="btn_custom" data-toggle="modal" data-target="#customModal">Custom</button>
+                            <button class="btn btn-info btn-lg btn-block" id="btn_rules" data-toggle="modal" data-target="#ruleModal">Rules</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="modal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 class="modal-title"></h3>
+                </div>
+                <div class="modal-body">
+                    <p class="text-center"></p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-lng" id="modalBtn"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="ruleModal">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3>The Rules</h3>
+                </div>
+                <div class="modal-body">
+                    <h4>The rules are simple: </h4>
+                    <ul>
+                        <li>Click on a mine, you lose</li>
+                        <li>Click on an empty cell, you live (for now)</li>
+                        <li>Click on a numbered cell. The number inside the cell is the number of mines located in touching cells.</li>
+                    </ul>
+                    <!--
+                    TODO
+                    <h4>A little help.</h4>
+                    <p>Are you positive a cell is holding a mine? Right click it! It'll put a flag on it and prevent you from misclicking it. </p>
+                    <p>If you put the flag on the wrong cell, no worries. Right click again and get rid of that flag!</p>
+                    -->
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-lng btn-primary" data-dismiss="modal">Got it!</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="customModal">
+        <div class="modal-dialog">
+            <form id="customForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h3>Custom game</h3>
+                    </div>
+                    <div class="modal-body">
+                        <h4>Let's start a custom game.</h4>
+                        <p>Here you can start a really hard game... or a really easy... Whatever you want, I guess.</p>
+                        <div class="form-group">
+                            <label for="nbCol">Number of columns (8 - 30): </label>
+                            <input type="number" id="nbCol" min="8" max="30" value="8">
+                        </div>
+                        <div class="form-group">
+                            <label for="nbCol">Number of rows (8 - 24): </label>
+                            <input type="number" id="nbRow" min="8" max="24" value="8">
+                        </div>
+                        <div class="form-group">
+                            <label for="nbCol">Number of mines (10 - 668): </label>
+                            <input type="number" id="nbMine" min="10" max="668" value="10">
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-lng btn-primary">Let's play!</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="script.js"></script>
+</body>
+</html>
