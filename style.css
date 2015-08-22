@@ -7,10 +7,6 @@
     vertical-align: center;
 }
 
-#modal {
-    display: none;
-}
-
 #modal button {
     width: 33%;
 }

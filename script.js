@@ -9,6 +9,7 @@ startGame = function(nbCol, nbRow, nbMines) {
 
 	emptyCellsFound = 0;
 	placeMines(board);
+
 	var size = Math.min($("#gameArea").width() / nbCol, 50);
 
 	var container = $("<table>").css({
@@ -57,8 +58,17 @@ startGame = function(nbCol, nbRow, nbMines) {
 						break;
 					}
 				});
+				cell.on("contextmenu", function(event) {
+					event.preventDefault();
+					if (cell.hasClass('flagged')) {
+						cell.removeClass('flagged');
+						cell.html("<button class='btn btn-default btn-lng btn-block'></button>")
+					} else {
+						cell.addClass('flagged');
+						cell.html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
+					}
+				});
 			})(number, cell);
-
 			row.append(cell);
 		}
 		container.append(row);
@@ -170,12 +180,12 @@ showModal = function(title, text, btnText) {
 };
 
 showWinModal = function() {
-	$("#modal button").addClass('btn-success');
+	$("#modal button").removeClass('btn-warning').addClass('btn-success');
 	return showModal("Win", "You beat the game! Let's try again, harder this time!", "Yay!");
 };
 
 showLossModal = function() {
-	$("#modal button").addClass('btn-warning');
+	$("#modal button").removeClass('btn-success').addClass('btn-warning');
 	return showModal("Loss", "Oh no, you lost. Maybe try an easier difficulty?", ":(");
 };
 
