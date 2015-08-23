@@ -220,14 +220,14 @@ $("#modalBtn").click(function() {
 });
 $("#customForm").submit(function(event) {
 	event.preventDefault();
-	var cols = $("#nbCol").val();
-	var rows = $("#nbRow").val();
-	var mines = $("#nbMine").val();
+	var cols = parseInt($("#nbCol").val());
+	var rows = parseInt($("#nbRow").val());
+	var mines = parseInt($("#nbMine").val());
 	if (cols === 0) col = 8;
 	if (rows === 0) row = 8;
 	if (mines === 0) mines = 10;
 	if (!gameStarted) {
 		$("#customModal").modal('hide');
-		startGame(rows, cols, mines);
+		startGame(cols, rows, mines);
 	}
 });
