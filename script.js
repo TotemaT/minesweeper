@@ -7,6 +7,7 @@ startGame = function(nbCol, nbRow, nbMines) {
 		emptyCells: (nbCol * nbRow) - nbMines
 	};
 
+	gameStarted = true;
 	emptyCellsFound = 0;
 	placeMines(board);
 
@@ -203,19 +204,16 @@ $("#btn_easy").on("click", function() {
 	if (!gameStarted) {
 		startGame(8, 8, 10);
 	}
-	gameStarted = true;
 });
 $("#btn_normal").on("click", function() {
 	if (!gameStarted) {
 		startGame(16, 16, 40);
 	}
-	gameStarted = true;
 });
 $("#btn_hard").on("click", function() {
 	if (!gameStarted) {
 		startGame(30, 16, 99);
 	}
-	gameStarted = true;
 });
 $("#modalBtn").click(function() {
 	$("#modal").modal('hide');
