@@ -32,7 +32,7 @@ startGame = function(nbCol, nbRow, nbMines) {
 			var number = board.array[i][j];
 			(function(number, cell) {
 				cell.click(function() {
-					if (gameStarted && cell.hasClass('clicked')) {
+					if (gameStarted || cell.hasClass('flagged') || cell.hasClass('clicked')) {
 						return;
 					}
 					cell.addClass('clicked');
