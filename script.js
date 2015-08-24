@@ -61,12 +61,14 @@ startGame = function(nbCol, nbRow, nbMines) {
 				});
 				cell.on("contextmenu", function(event) {
 					event.preventDefault();
-					if (cell.hasClass('flagged')) {
-						cell.removeClass('flagged');
-						cell.html("<button class='btn btn-default btn-lng btn-block'></button>")
-					} else {
-						cell.addClass('flagged');
-						cell.html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
+					if (!cell.hasClass('clicked')) {
+						if (cell.hasClass('flagged')) {
+							cell.removeClass('flagged');
+							cell.html("<button class='btn btn-default btn-lng btn-block'></button>")
+						} else {
+							cell.addClass('flagged');
+							cell.html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
+						}
 					}
 				});
 			})(number, cell);
