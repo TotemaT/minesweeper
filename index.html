@@ -12,19 +12,17 @@
     <h1 class="text-center">Minesweeper</h1>
     <h2 class="text-center">Find all the mines, empty the board, don't die.</h2>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-xs-12" id="gameArea">
-                <!-- Game menu -->
-                <div class="well" id="menu">
-                    <h3 class="text-center">Choose your difficulty</h3>
-                    <div class="row">
-                        <div class="col-xs-12 col-md-4 col-md-offset-4 btn-group-vertical">
-                            <button class="btn btn-primary btn-lg btn-block" id="btn_easy">Easy</button>
-                            <button class="btn btn-warning btn-lg btn-block" id="btn_normal">Normal</button>
-                            <button class="btn btn-danger btn-lg btn-block" id="btn_hard">Hard</button>
-                            <button class="btn btn-default btn-lg btn-block" id="btn_custom" data-toggle="modal" data-target="#customModal">Custom</button>
-                            <button class="btn btn-info btn-lg btn-block" id="btn_rules" data-toggle="modal" data-target="#ruleModal">Rules</button>
-                        </div>
+        <div id="gameArea">
+            <!-- Game menu -->
+            <div class="well" id="menu">
+                <h3 class="text-center">Choose your difficulty</h3>
+                <div class="row">
+                    <div class="col-xs-12 col-md-4 col-md-offset-4 btn-group-vertical">
+                        <button class="btn btn-primary btn-lg btn-block" id="btn_easy">Easy</button>
+                        <button class="btn btn-warning btn-lg btn-block" id="btn_normal">Normal</button>
+                        <button class="btn btn-danger btn-lg btn-block" id="btn_hard">Hard</button>
+                        <button class="btn btn-default btn-lg btn-block" id="btn_custom" data-toggle="modal" data-target="#customModal">Custom</button>
+                        <button class="btn btn-info btn-lg btn-block" id="btn_rules" data-toggle="modal" data-target="#ruleModal">Rules</button>
                     </div>
                 </div>
             </div>
@@ -104,15 +102,15 @@
     </div>
     <!-- Game -->
     <div id="game">
-        <div class="col-xs-12 col-md-9">
-            <div class="well" id="board">
-
-            </div>
-        </div>
-        <div class="col-xs-12 col-md-3">
+        <div class="col-xs-12 col-lg-3">
             <div class="well" id="counters">
                 <p><i class="glyphicon glyphicon-fire"></i> <span id="minesTotal"></span> mines in total</p>
                 <p><i class="glyphicon glyphicon-flag"></i> <span id="flagsLeft"></span> flags left to plant</p>
+            </div>
+        </div>
+        <div class="col-xs-12 col-lg-9">
+            <div class="well" id="board">
+
             </div>
         </div>
     </div>

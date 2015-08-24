@@ -27,7 +27,7 @@ startGame = function(nbCol, nbRow, nbMines) {
 				width: size,
 				height: size
 			});
-			cell.html("<button class='btn btn-default btn-block btn-lng'></button>");
+			cell.html("<button class='btn btn-default btn-block'></button>");
 			var id = i * nbCol + j;
 			cell.attr({
 				id: id});
@@ -220,7 +220,11 @@ $("#btn_normal").on("click", function() {
 });
 $("#btn_hard").on("click", function() {
 	if (!gameStarted) {
-		startGame(30, 16, 99);
+		if (window.innerHeight < window.innerWidth) {
+			startGame(30, 16, 99);
+		} else {
+			startGame(16, 30, 99);
+		}
 	}
 });
 $("#modalBtn").click(function() {
