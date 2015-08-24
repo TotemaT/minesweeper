@@ -231,3 +231,9 @@ $("#customForm").submit(function(event) {
 		startGame(cols, rows, mines);
 	}
 });
+
+$(window).on("beforeunload", function() {
+	if (gameStarted) {
+		return "Do you really wanna quit the game?";
+	}
+});
