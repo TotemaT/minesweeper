@@ -9,9 +9,10 @@
 <body>
     <h1 class="text-center">Minesweeper</h1>
     <h2 class="text-center">Find all the mines, empty the board, don't die.</h2>
-    <div class="container">
+    <div class="container-fluid">
         <div class="row">
             <div class="col-xs-12" id="gameArea">
+                <!-- Game menu -->
                 <div class="well" id="menu">
                     <h3 class="text-center">Choose your difficulty</h3>
                     <div class="row">
@@ -27,6 +28,7 @@
             </div>
         </div>
     </div>
+    <!-- End of game modal -->
     <div class="modal fade" id="modal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -42,6 +44,7 @@
             </div>
         </div>
     </div>
+    <!-- Rules modal -->
     <div class="modal fade" id="ruleModal">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -66,6 +69,7 @@
             </div>
         </div>
     </div>
+    <!-- Custom game modal -->
     <div class="modal fade" id="customModal">
         <div class="modal-dialog">
             <form id="customForm">
@@ -95,6 +99,20 @@
                 </div>
             </div>
         </form>
+    </div>
+    <!-- Game -->
+    <div id="game">
+        <div class="col-xs-12 col-md-9">
+            <div class="well" id="board">
+
+            </div>
+        </div>
+        <div class="col-xs-12 col-md-3">
+            <div class="well" id="counters">
+                <p><i class="glyphicon glyphicon-fire"></i> <span id="minesTotal"></span> mines in total</p>
+                <p><i class="glyphicon glyphicon-flag"></i> <span id="flagsLeft"></span> flags left to plant</p>
+            </div>
+        </div>
     </div>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>

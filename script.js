@@ -4,7 +4,8 @@ startGame = function(nbCol, nbRow, nbMines) {
 		col: nbCol,
 		row: nbRow,
 		mines: nbMines,
-		emptyCells: (nbCol * nbRow) - nbMines
+		emptyCells: (nbCol * nbRow) - nbMines,
+		flags: nbMines
 	};
 
 	gameStarted = true;
@@ -13,10 +14,10 @@ startGame = function(nbCol, nbRow, nbMines) {
 
 	var size = Math.min($("#gameArea").width() / nbCol, 50);
 
-	var container = $("<table>").css({
+	var table = $("<table>").css({
 		margin: 'auto'
 	});
-	container.addClass('table-bordered');
+	table.addClass('table-bordered');
 
 	/* create table */
 	for (var i = 0; i < nbRow; i++) {
@@ -47,7 +48,7 @@ startGame = function(nbCol, nbRow, nbMines) {
 						handleEmptyCell(cell.attr("id"), nbCol, nbRow*nbCol);
 						break;
 						case 9:
-						cell.html("<p class='text-center'><i class='glyphicon glyphicon-remove-sign'></i></p>");
+						cell.html("<p class='text-center'><i class='glyphicon glyphicon-fire'></i></p>");
 						showLossModal();
 						break;
 						default:
@@ -64,25 +65,29 @@ startGame = function(nbCol, nbRow, nbMines) {
 					if (!cell.hasClass('clicked')) {
 						if (cell.hasClass('flagged')) {
 							cell.removeClass('flagged');
-							cell.html("<button class='btn btn-default btn-lng btn-block'></button>")
-						} else {
+							cell.html("<button class='btn btn-default btn-lng btn-block'></button>");
+							board.flags++;
+						} else if (board.flags > 0) {
 							cell.addClass('flagged');
-							cell.html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
+							cell.children().html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
+							board.flags--;
 						}
 					}
+					$("#flagsLeft").text(board.flags);
 				});
 			})(number, cell);
 			row.append(cell);
 		}
-		container.append(row);
+		table.append(row);
 	}
 
 	$("#menu").fadeOut('slow', function() {
-		var well = $("<div>").addClass('well').attr('id', 'game');
-		well.append(container);
-		$("#gameArea").append(well).fadeIn('slow');
+		$("#board").append(table);
+		$("#minesTotal").text(board.mines);
+		$("#flagsLeft").text(board.mines);
+		$("#gameArea").append($("#game"));
+		$("#game").fadeIn('slow');
 	});
-
 };
 
 placeMines = function(board) {
@@ -195,7 +200,8 @@ showLossModal = function() {
 $('#modal').on('hidden.bs.modal', function (e) {
 	gameStarted = false;
 	$("#game").fadeOut('slow', function() {
-		$("#game").remove();
+		$("#game").hide();
+		$("#board").children('table').remove();
 		$("#menu").fadeIn('slow');
 	});
 });
@@ -238,4 +244,8 @@ $(window).on("beforeunload", function() {
 	if (gameStarted) {
 		return "Do you really wanna quit the game?";
 	}
+});
+
+$(function() {
+	$("#game").hide();
 });
