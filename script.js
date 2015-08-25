@@ -1,3 +1,10 @@
+"use strict";
+
+var gameStarted = false;
+var emptyCellsFound = 0;
+var firstCellClicked = false;
+var timerId;
+
 var startGame = function(nbCol, nbRow, nbMines) {
     var board = {
         array: [],
@@ -9,6 +16,7 @@ var startGame = function(nbCol, nbRow, nbMines) {
     };
 
     gameStarted = true;
+    firstCellClicked = false;
     emptyCellsFound = 0;
     placeMines(board);
 
@@ -102,6 +110,8 @@ var showGame = function(board, table) {
         $("#board").append(table);
         $("#minesTotal").text(board.mines);
         $("#flagsLeft").text(board.mines);
+        $("#timerMinutes").text("00");
+        $("#timerSeconds").text("00");
         $("#gameArea").append($("#game"));
         $("#game").fadeIn('slow');
     });
@@ -112,24 +122,31 @@ var addClickListener = function(cell, board, number) {
         if (!gameStarted || cell.hasClass('flagged') || cell.hasClass('clicked')) {
             return;
         }
+        if (!firstCellClicked) {
+            timerId = window.setInterval(startTimer, 1000);
+            firstCellClicked = true;
+        }
         cell.addClass('clicked');
         switch(number) {
             case 0:
             cell.html("");
             emptyCellsFound++;
             if (emptyCellsFound === board.emptyCells) {
+                clearInterval(timerId);
                 showWinModal();
             }
             handleEmptyCell(cell.attr("id"), board.col, board.row * board.col);
             break;
             case 9:
             cell.html("<p class='text-center'><i class='glyphicon glyphicon-fire'></i></p>");
+            clearInterval(timerId);
             showLossModal();
             break;
             default:
             emptyCellsFound++;
             cell.html("<p class='text-center'>" + number + "</p>");
             if (emptyCellsFound === board.emptyCells) {
+                clearInterval(timerId);
                 showWinModal();
             }
             break;
@@ -201,12 +218,40 @@ var showModal = function(title, text, btnText) {
 
 var showWinModal = function() {
     $("#modal button").removeClass('btn-warning').addClass('btn-success');
-    return showModal("Win", "You beat the game! Let's try again, harder this time!", "Yay!");
+    var text = "You beat the game in";
+    var minutes = parseInt($("#timerMinutes").text());
+    var seconds = parseInt($("#timerSeconds").text());
+    if (minutes === 1) {
+        text += " 1 minute";
+    } else if (minutes > 1) {
+        text += " " + minutes + " minutes";
+    }
+    if (minutes >= 1) {
+        text += " and";
+    }
+    if (seconds === 1) {
+        text += " 1 second";
+    } else if (seconds > 1) {
+        text += " " + seconds + " secondes";
+    }
+   text +=  "! Let's try again, harder this time!";
+    return showModal("Win!", text, "Yay!");
 };
 
 var showLossModal = function() {
     $("#modal button").removeClass('btn-success').addClass('btn-warning');
     return showModal("Loss", "Oh no, you lost. Maybe try an easier difficulty?", ":(");
+}
+
+var startTimer = function() {
+    var secondsElt = $("#timerSeconds");
+    if (secondsElt.text() === 59) {
+        var minutesElt = $("#timerMinutes");
+        minutesElt.text(("0" + (parseInt(minutesElt.text()) + 1)).slice(-2));
+        secondsElt.text("00");
+    } else {
+        secondsElt.text(("0" + (parseInt(secondsElt.text()) + 1)).slice(-2));
+    }
 };
 
 $('#modal').on('hidden.bs.modal', function () {
@@ -218,8 +263,6 @@ $('#modal').on('hidden.bs.modal', function () {
     });
 });
 
-var gameStarted = false;
-var emptyCellsFound = 0;
 $("#btn_easy").on("click", function() {
     if (!gameStarted) {
         startGame(8, 8, 10);
