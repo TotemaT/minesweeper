@@ -1,4 +1,4 @@
-startGame = function(nbCol, nbRow, nbMines) {
+var startGame = function(nbCol, nbRow, nbMines) {
 	var board = {
 		array: [],
 		col: nbCol,
@@ -90,7 +90,7 @@ startGame = function(nbCol, nbRow, nbMines) {
 	});
 };
 
-placeMines = function(board) {
+var placeMines = function(board) {
 	/* initialise board */
 	for (var i = 0; i < board.row; i++) {
 		board.array[i] = [];
@@ -111,15 +111,16 @@ placeMines = function(board) {
 	}
 };
 
-incrementBorderCells = function(board, row, col) {
+var incrementBorderCells = function(board, row, col) {
+	var tempCol;
 	/* inc left col */
 	if (col - 1 >= 0) {
-		var tempCol = col - 1;
+		tempCol = col - 1;
 		incrementSideCells(board, row, tempCol);
 	}
 	/* inc right col */
 	if (col + 1 < board.col) {
-		var tempCol = col + 1;
+		tempCol = col + 1;
 		incrementSideCells(board, row, tempCol);
 	}
 	/* inc top and bottom row */
@@ -131,7 +132,7 @@ incrementBorderCells = function(board, row, col) {
 	}
 };
 
-incrementSideCells = function(board, row, col) {
+var incrementSideCells = function(board, row, col) {
 	if (board.array[row][col] != 9) {
 		board.array[row][col]++;
 	}
@@ -143,7 +144,7 @@ incrementSideCells = function(board, row, col) {
 	}
 };
 
-handleEmptyCell = function(id, col, max) {
+var handleEmptyCell = function(id, col, max) {
 	var cells = [];
 	if (id % col === 0) {
 		/* fist cell of a line */
@@ -180,24 +181,24 @@ handleEmptyCell = function(id, col, max) {
 	}
 };
 
-showModal = function(title, text, btnText) {
+var showModal = function(title, text, btnText) {
 	$("#modal h3").text(title);
 	$("#modal p").text(text);
 	$("#modal button").text(btnText);
 	$("#modal").modal();
 };
 
-showWinModal = function() {
+var showWinModal = function() {
 	$("#modal button").removeClass('btn-warning').addClass('btn-success');
 	return showModal("Win", "You beat the game! Let's try again, harder this time!", "Yay!");
 };
 
-showLossModal = function() {
+var showLossModal = function() {
 	$("#modal button").removeClass('btn-success').addClass('btn-warning');
 	return showModal("Loss", "Oh no, you lost. Maybe try an easier difficulty?", ":(");
 };
 
-$('#modal').on('hidden.bs.modal', function (e) {
+$('#modal').on('hidden.bs.modal', function () {
 	gameStarted = false;
 	$("#game").fadeOut('slow', function() {
 		$("#game").hide();
@@ -235,8 +236,8 @@ $("#customForm").submit(function(event) {
 	var cols = parseInt($("#nbCol").val());
 	var rows = parseInt($("#nbRow").val());
 	var mines = parseInt($("#nbMine").val());
-	if (cols === 0) col = 8;
-	if (rows === 0) row = 8;
+	if (cols === 0) cols = 8;
+	if (rows === 0) rows = 8;
 	if (mines === 0) mines = 10;
 	if (!gameStarted) {
 		$("#customModal").modal('hide');
