@@ -231,7 +231,7 @@ var showWinModal = function() {
     if (seconds === 1) {
         text += " 1 second";
     } else if (seconds > 1) {
-        text += " " + seconds + " secondes";
+        text += " " + seconds + " seconds";
     }
    text +=  "! Let's try again, harder this time!";
     return showModal("Win!", text, "Yay!");
