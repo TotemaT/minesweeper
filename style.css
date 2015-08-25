@@ -1,10 +1,23 @@
-.board-cell > button{
-    width: 100%;
-    height: 100%;
+table {
+    background: #EEE;
+    border-collapse: separate;
+    text-align: left;
 }
 
 .board-cell {
-    vertical-align: center;
+    border-right: 1px solid #fff;
+    border-left: 1px solid #e8e8e8;
+    border-top: 1px solid #fff;
+    border-bottom: 1px solid #e8e8e8;
+    transition: all 250ms;
+}
+
+.board-cell:hover {
+    background-color: #AAA;
+}
+
+.clicked {
+    background-color: white;
 }
 
 #modal button {

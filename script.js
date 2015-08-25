@@ -35,7 +35,6 @@ var startGame = function(nbCol, nbRow, nbMines) {
                 width: size,
                 height: size
             });
-            cell.html("<button class='btn btn-default btn-block'></button>");
             var id = i * nbCol + j;
             cell.attr({
                 id: id});
@@ -160,11 +159,11 @@ var addRightClickListener = function(cell, board) {
         if (!cell.hasClass("clicked")) {
             if (cell.hasClass("flagged")) {
                 cell.removeClass("flagged");
-                cell.html("<button class='btn btn-default btn-lng btn-block'></button>");
+                cell.html("");
                 board.flags++;
             } else if (board.flags > 0) {
                 cell.addClass("flagged");
-                cell.children().html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
+                cell.html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
                 board.flags--;
             }
         }
