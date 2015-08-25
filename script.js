@@ -23,9 +23,9 @@ var startGame = function(nbCol, nbRow, nbMines) {
     var size = Math.min($("#gameArea").width() / nbCol, 50);
 
     var table = $("<table>").css({
-        margin: 'auto'
+        margin: "auto"
     });
-    table.addClass('table-bordered');
+    table.addClass("table-bordered");
 
     /* create table */
     for (var i = 0; i < nbRow; i++) {
@@ -106,27 +106,27 @@ var incrementSideCells = function(board, row, col) {
 };
 
 var showGame = function(board, table) {
-    $("#menu").fadeOut('slow', function() {
+    $("#menu").fadeOut("slow", function() {
         $("#board").append(table);
         $("#minesTotal").text(board.mines);
         $("#flagsLeft").text(board.mines);
         $("#timerMinutes").text("00");
         $("#timerSeconds").text("00");
         $("#gameArea").append($("#game"));
-        $("#game").fadeIn('slow');
+        $("#game").fadeIn("slow");
     });
 };
 
 var addClickListener = function(cell, board, number) {
-    cell.on('click', function() {
-        if (!gameStarted || cell.hasClass('flagged') || cell.hasClass('clicked')) {
+    cell.on("click", function() {
+        if (!gameStarted || cell.hasClass("flagged") || cell.hasClass("clicked")) {
             return;
         }
         if (!firstCellClicked) {
             timerId = window.setInterval(startTimer, 1000);
             firstCellClicked = true;
         }
-        cell.addClass('clicked');
+        cell.addClass("clicked");
         switch(number) {
             case 0:
             cell.html("");
@@ -155,15 +155,15 @@ var addClickListener = function(cell, board, number) {
 };
 
 var addRightClickListener = function(cell, board) {
-    cell.on('contextmenu', function(event) {
+    cell.on("contextmenu", function(event) {
         event.preventDefault();
-        if (!cell.hasClass('clicked')) {
-            if (cell.hasClass('flagged')) {
-                cell.removeClass('flagged');
+        if (!cell.hasClass("clicked")) {
+            if (cell.hasClass("flagged")) {
+                cell.removeClass("flagged");
                 cell.html("<button class='btn btn-default btn-lng btn-block'></button>");
                 board.flags++;
             } else if (board.flags > 0) {
-                cell.addClass('flagged');
+                cell.addClass("flagged");
                 cell.children().html("<p class='text-center'><i class='glyphicon glyphicon-flag'></i></p>");
                 board.flags--;
             }
@@ -217,7 +217,7 @@ var showModal = function(title, text, btnText) {
 };
 
 var showWinModal = function() {
-    $("#modal button").removeClass('btn-warning').addClass('btn-success');
+    $("#modal button").removeClass("btn-warning").addClass("btn-success");
     var text = "You beat the game in";
     var minutes = parseInt($("#timerMinutes").text());
     var seconds = parseInt($("#timerSeconds").text());
@@ -239,9 +239,9 @@ var showWinModal = function() {
 };
 
 var showLossModal = function() {
-    $("#modal button").removeClass('btn-success').addClass('btn-warning');
+    $("#modal button").removeClass("btn-success").addClass("btn-warning");
     return showModal("Loss", "Oh no, you lost. Maybe try an easier difficulty?", ":(");
-}
+};
 
 var startTimer = function() {
     var secondsElt = $("#timerSeconds");
@@ -254,12 +254,12 @@ var startTimer = function() {
     }
 };
 
-$('#modal').on('hidden.bs.modal', function () {
+$("#modal").on("hidden.bs.modal", function () {
     gameStarted = false;
-    $("#game").fadeOut('slow', function() {
+    $("#game").fadeOut("slow", function() {
         $("#game").hide();
-        $("#board").children('table').remove();
-        $("#menu").fadeIn('slow');
+        $("#board").children("table").remove();
+        $("#menu").fadeIn("slow");
     });
 });
 
@@ -283,7 +283,7 @@ $("#btn_hard").on("click", function() {
     }
 });
 $("#modalBtn").click(function() {
-    $("#modal").modal('hide');
+    $("#modal").modal("hide");
 });
 $("#customForm").submit(function(event) {
     event.preventDefault();
@@ -294,7 +294,7 @@ $("#customForm").submit(function(event) {
     if (rows === 0) rows = 8;
     if (mines === 0) mines = 10;
     if (!gameStarted) {
-        $("#customModal").modal('hide');
+        $("#customModal").modal("hide");
         startGame(cols, rows, mines);
     }
 });
