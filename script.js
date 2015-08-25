@@ -245,7 +245,7 @@ var showLossModal = function() {
 
 var startTimer = function() {
     var secondsElt = $("#timerSeconds");
-    if (secondsElt.text() === 59) {
+    if (parseInt(secondsElt.text()) === 59) {
         var minutesElt = $("#timerMinutes");
         minutesElt.text(("0" + (parseInt(minutesElt.text()) + 1)).slice(-2));
         secondsElt.text("00");
