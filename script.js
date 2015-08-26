@@ -4,21 +4,27 @@ var gameStarted = false;
 var emptyCellsFound = 0;
 var firstCellClicked = false;
 var timerId;
+var board = {
+    array: [],
+    col: 0,
+    row: 0,
+    mines: 0,
+    emptyCells: 0,
+    flags: 0
+};
 
 var startGame = function(nbCol, nbRow, nbMines) {
-    var board = {
-        array: [],
-        col: nbCol,
-        row: nbRow,
-        mines: nbMines,
-        emptyCells: (nbCol * nbRow) - nbMines,
-        flags: nbMines
-    };
+    board.array = [];
+    board.col = nbCol;
+    board.row = nbRow;
+    board.mines = nbMines;
+    board.emptyCells = (nbCol * nbRow) - nbMines;
+    board.flags = nbMines;
 
     gameStarted = true;
     firstCellClicked = false;
     emptyCellsFound = 0;
-    placeMines(board);
+    placeMines();
 
     var size = Math.min($("#gameArea").width() / nbCol, 50);
 
@@ -40,17 +46,17 @@ var startGame = function(nbCol, nbRow, nbMines) {
                 id: id});
             var number = board.array[i][j];
 
-            addClickListener(cell, board, number);
-            addRightClickListener(cell, board);
+            addClickListener(cell, number);
+            addRightClickListener(cell);
             row.append(cell);
         }
         table.append(row);
     }
 
-    showGame(board, table);
+    showGame(table);
 };
 
-var placeMines = function(board) {
+var placeMines = function() {
     /* initialise board */
     for (var i = 0; i < board.row; i++) {
         board.array[i] = [];
@@ -65,23 +71,23 @@ var placeMines = function(board) {
         var rowIndex =  Math.floor((Math.random() * board.row));
         if(board.array[rowIndex][colIndex] != 9) {
             board.array[rowIndex][colIndex] = 9;
-            incrementBorderCells(board, rowIndex, colIndex);
+            incrementBorderCells(rowIndex, colIndex);
             minePlanted++;
         }
     }
 };
 
-var incrementBorderCells = function(board, row, col) {
+var incrementBorderCells = function(row, col) {
     var tempCol;
     /* inc left col */
     if (col - 1 >= 0) {
         tempCol = col - 1;
-        incrementSideCells(board, row, tempCol);
+        incrementSideCells(row, tempCol);
     }
     /* inc right col */
     if (col + 1 < board.col) {
         tempCol = col + 1;
-        incrementSideCells(board, row, tempCol);
+        incrementSideCells(row, tempCol);
     }
     /* inc top and bottom row */
     if (row - 1 >= 0 && board.array[row - 1][col] != 9) {
@@ -92,7 +98,7 @@ var incrementBorderCells = function(board, row, col) {
     }
 };
 
-var incrementSideCells = function(board, row, col) {
+var incrementSideCells = function(row, col) {
     if (board.array[row][col] != 9) {
         board.array[row][col]++;
     }
@@ -104,7 +110,7 @@ var incrementSideCells = function(board, row, col) {
     }
 };
 
-var showGame = function(board, table) {
+var showGame = function(table) {
     $("#menu").fadeOut("slow", function() {
         $("#board").append(table);
         $("#minesTotal").text(board.mines);
@@ -116,7 +122,7 @@ var showGame = function(board, table) {
     });
 };
 
-var addClickListener = function(cell, board, number) {
+var addClickListener = function(cell, number) {
     cell.on("click", function() {
         if (!gameStarted || cell.hasClass("flagged") || cell.hasClass("clicked")) {
             return;
@@ -153,7 +159,7 @@ var addClickListener = function(cell, board, number) {
     });
 };
 
-var addRightClickListener = function(cell, board) {
+var addRightClickListener = function(cell) {
     cell.on("contextmenu", function(event) {
         event.preventDefault();
         if (!cell.hasClass("clicked")) {
@@ -239,6 +245,7 @@ var showWinModal = function() {
 
 var showLossModal = function() {
     $("#modal button").removeClass("btn-success").addClass("btn-warning");
+    showMinesLeft();
     return showModal("Loss", "Oh no, you lost. Maybe try an easier difficulty?", ":(");
 };
 
@@ -251,6 +258,26 @@ var startTimer = function() {
     } else {
         secondsElt.text(("0" + (parseInt(secondsElt.text()) + 1)).slice(-2));
     }
+};
+
+var showMinesLeft = function() {
+   for (var i = 0; i < board.row; i++) {
+        for (var j = 0; j < board.col; j++) {
+            var id = i * board.col + j;
+            var elt = $("#" + id);
+            if (board.array[i][j] === 9) {
+                if (elt.hasClass("flagged")) {
+                    elt.css("color", "green");
+                } else {
+                    elt.css("color", "red").html("<p class='text-center'><i class='glyphicon glyphicon-fire'></i></p>");
+                }
+            } else {
+                if (elt.hasClass("flagged")) {
+                    elt.css("color", "red");
+                }
+            }
+        }
+   }
 };
 
 $("#modal").on("hidden.bs.modal", function () {

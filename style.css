@@ -27,3 +27,7 @@ table {
 #modal button {
     width: 33%;
 }
+
+.end-game-icons {
+    list-style: none;
+}
