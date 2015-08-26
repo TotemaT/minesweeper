@@ -20,6 +20,10 @@ table {
     background-color: white;
 }
 
+.clicked:hover {
+    background-color: white;
+}
+
 #modal button {
     width: 33%;
 }
