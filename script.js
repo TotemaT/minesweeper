@@ -260,7 +260,7 @@ var startTimer = function() {
 };
 
 var showMinesLeft = function() {
-   for (var i = 0; i < board.row; i++) {
+ for (var i = 0; i < board.row; i++) {
     for (var j = 0; j < board.col; j++) {
         var id = i * board.col + j;
         var elt = $("#" + id);
@@ -309,6 +309,13 @@ $("#modal").on("hide.bs.modal", function () {
         break;
         case 4:
         $("#game").fadeOut("slow", function() {
+            $("#board").children("table").remove();
+            $("#menu").fadeIn("slow");
+        });
+        break;
+        default:
+        $("#game").fadeOut("slow", function() {
+            $("#board").children("table").remove();
             $("#menu").fadeIn("slow");
         });
         break;
