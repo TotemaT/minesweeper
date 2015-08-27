@@ -12,6 +12,7 @@ var board = {
     emptyCells: 0,
     flags: 0
 };
+var modalClicked = -1;
 
 var startGame = function(nbCol, nbRow, nbMines) {
     board.array = [];
@@ -22,6 +23,7 @@ var startGame = function(nbCol, nbRow, nbMines) {
     board.flags = nbMines;
 
     gameStarted = true;
+    modalClicked = -1;
     firstCellClicked = false;
     emptyCellsFound = 0;
     placeMines();
@@ -214,15 +216,13 @@ var handleEmptyCell = function(id, col, max) {
     }
 };
 
-var showModal = function(title, text, btnText) {
+var showModal = function(title, text) {
     $("#modal h3").text(title);
     $("#modal p").text(text);
-    $("#modal button").text(btnText);
     $("#modal").modal();
 };
 
 var showWinModal = function() {
-    $("#modal button").removeClass("btn-warning").addClass("btn-success");
     var text = "You beat the game in";
     var minutes = parseInt($("#timerMinutes").text());
     var seconds = parseInt($("#timerSeconds").text());
@@ -239,14 +239,13 @@ var showWinModal = function() {
     } else if (seconds > 1) {
         text += " " + seconds + " seconds";
     }
-   text +=  "! Let's try again, harder this time!";
-    return showModal("Win!", text, "Yay!");
+    text +=  "! Let's try again, harder this time!";
+    return showModal("Win!", text);
 };
 
 var showLossModal = function() {
-    $("#modal button").removeClass("btn-success").addClass("btn-warning");
     showMinesLeft();
-    return showModal("Loss", "Oh no, you lost. Maybe try an easier difficulty?", ":(");
+    return showModal("Loss", "Oh no, you lost. Maybe try an easier difficulty?");
 };
 
 var startTimer = function() {
@@ -262,31 +261,87 @@ var startTimer = function() {
 
 var showMinesLeft = function() {
    for (var i = 0; i < board.row; i++) {
-        for (var j = 0; j < board.col; j++) {
-            var id = i * board.col + j;
-            var elt = $("#" + id);
-            if (board.array[i][j] === 9) {
-                if (elt.hasClass("flagged")) {
-                    elt.css("color", "green");
-                } else {
-                    elt.css("color", "red").html("<p class='text-center'><i class='glyphicon glyphicon-fire'></i></p>");
-                }
+    for (var j = 0; j < board.col; j++) {
+        var id = i * board.col + j;
+        var elt = $("#" + id);
+        if (board.array[i][j] === 9) {
+            if (elt.hasClass("flagged")) {
+                elt.css("color", "green");
             } else {
-                if (elt.hasClass("flagged")) {
-                    elt.css("color", "red");
-                }
+                elt.css("color", "red").html("<p class='text-center'><i class='glyphicon glyphicon-fire'></i></p>");
+            }
+        } else {
+            if (elt.hasClass("flagged")) {
+                elt.css("color", "red");
             }
         }
-   }
+    }
+}
 };
 
-$("#modal").on("hidden.bs.modal", function () {
+$("#modal").on("hide.bs.modal", function () {
     gameStarted = false;
-    $("#game").fadeOut("slow", function() {
-        $("#game").hide();
-        $("#board").children("table").remove();
-        $("#menu").fadeIn("slow");
-    });
+    switch(modalClicked) {
+        case 0:
+        if (!gameStarted) {
+            $("#board").children("table").remove();
+            startGame(8, 8, 10);
+        }
+        break;
+        case 1:
+        if (!gameStarted) {
+            $("#board").children("table").remove();
+            startGame(16, 16, 40);
+        }
+        break;
+        case 2:
+        if (!gameStarted) {
+            $("#board").children("table").remove();
+            if (window.innerHeight < window.innerWidth) {
+                startGame(30, 16, 99);
+            } else {
+                startGame(16, 30, 99);
+            }
+        }
+        break;
+        case 3:
+        $("#customModal").modal();
+        break;
+        case 4:
+        $("#game").fadeOut("slow", function() {
+            $("#menu").fadeIn("slow");
+        });
+        break;
+    }
+});
+
+$("#customModal").on("hide.bs.modal", function() {
+    $("#board").children("table").remove();
+});
+
+$("#modal_easy").on("click", function() {
+    modalClicked = 0;
+    $("#modal").modal("hide");
+});
+
+$("#modal_normal").on("click", function() {
+    modalClicked = 1;
+    $("#modal").modal("hide");
+});
+
+$("#modal_hard").on("click", function() {
+    modalClicked = 2;
+    $("#modal").modal("hide");
+});
+
+$("#modal_custom").on("click", function() {
+    modalClicked = 3;
+    $("#modal").modal("hide");
+});
+
+$("#modal-back-menu").click(function() {
+    modalClicked = 4;
+    $("#modal").modal("hide");
 });
 
 $("#btn_easy").on("click", function() {
@@ -308,9 +363,7 @@ $("#btn_hard").on("click", function() {
         }
     }
 });
-$("#modalBtn").click(function() {
-    $("#modal").modal("hide");
-});
+
 $("#customForm").submit(function(event) {
     event.preventDefault();
     var cols = parseInt($("#nbCol").val());
